@@ -1,3 +1,78 @@
+/* import React, {useState} from "react";
+
+function App(){
+
+  const [numero, setNumero] = useState(0);
+
+
+  return(
+    <div>
+      <h1>React Hooks</h1>
+      <h2>{numero}</h2>
+      <button onClick={() => setNumero(numero+1)}>Aumentar</button>
+    </div>
+  )
+}
+export default App;
+*/
+
+
+
+
+//useSate e useEffect
+import React, {useEffect, useState, useMemo, useCallback} from "react";
+
+function App(){
+
+  const [tarefas, setTarefas] = useState([])
+  const [input, setInput] = useState([''])
+
+  useEffect(() => {
+    const tarefasStorage = localStorage.getItem('tarefas')
+
+    if(tarefasStorage){
+      setTarefas(JSON.parse(tarefasStorage));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+  }, [tarefas])
+
+  const [nome, setNome] = useState(['Alcemir'])
+
+  const addTarefa = useCallback(()=>{
+    setTarefas([...tarefas, input])
+    setInput('');
+  }, [input, tarefas]);
+
+  const totalTarefas = useMemo(()=> tarefas.length, [tarefas]);
+
+
+
+  return(
+    <div>
+      <h1>REACT ROOKS</h1>
+      <ul>
+        {tarefas.map(tarefas => (
+          <li key={tarefas}>{tarefas}</li>
+        ))}
+      </ul>
+      <strong>Você tem {totalTarefas} Tarefas</strong><br/>
+
+      <input type="text" value={input} onChange={e => setInput(e.target.value)}></input>
+      <button type="button" onClick={addTarefa}>Adicionar</button>
+      <p>{nome}</p>
+    </div>
+  )
+}
+
+export default App;
+
+
+
+/*
+//CLASS COMPONENT
 import React, {Component} from "react";
 import './estilo.css';
 
@@ -46,4 +121,4 @@ class Botao extends Component{
     )
   }
 }
-export default App;
+export default App;*/
